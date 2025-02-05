@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react';
 import {
   Node,
@@ -8,6 +9,5 @@ export default function useGraph() {
 
   return {
     nodes,
-  
   };
 }
