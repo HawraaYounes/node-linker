@@ -1,4 +1,5 @@
 import GraphCanvas from "./components/GraphCanvas";
+import SidePanel from "./components/SidePanel";
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
       <div className="flex-1">
         <GraphCanvas />
       </div>
+      <SidePanel/>
     </div>
   );
 }
