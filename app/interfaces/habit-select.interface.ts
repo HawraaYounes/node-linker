@@ -1,3 +1,5 @@
 interface HabitSelectProps {
-    habits: { value: string; label: string }[];
-  }
+  value: string;
+  onChange: (value: string) => void;
+  habits: { value: string; label: string }[];
+}
