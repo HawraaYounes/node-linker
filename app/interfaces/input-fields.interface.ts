@@ -1,5 +1,6 @@
-// components/InputField.tsx
 interface InputFieldProps {
-    label: string;
-    placeholder: string;
-  }
+  label: string;
+  placeholder: string;
+  value: string; 
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; 
+}

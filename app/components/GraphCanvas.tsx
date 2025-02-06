@@ -1,5 +1,5 @@
-// src/components/GraphCanvas.tsx
-import ReactFlow, { Controls, Background } from 'reactflow';
+"use client"
+import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import 'reactflow/dist/style.css';
 import useGraph from '../hooks/useGraph';
 
@@ -15,6 +15,7 @@ export default function GraphCanvas() {
       >
         <Background />
         <Controls />
+        <MiniMap />
       </ReactFlow>
     </div>
   );

@@ -1,41 +1,58 @@
-export default function SidePanelUI({ isEditing = true }) {
-    return (
-      <div className="w-64 p-4 bg-gray-50 border-l border-gray-200">
-        <h2 className="text-lg font-semibold mb-4">
-          {isEditing ? 'Edit Node' : 'Add Node'}
-        </h2>
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Node Name
-            </label>
-            <input className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-          </div>
-          {isEditing ? (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Habit
-              </label>
-              <select className="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                <option value="">Select a habit</option>
-                <option value="Reading">Reading</option>
-                <option value="Exercise">Exercise</option>
-                <option value="Meditation">Meditation</option>
-              </select>
-            </div>
-          ) : (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Username
-              </label>
-              <input className="mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
-            </div>
-          )}
-          <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-md">
-            {isEditing ? 'Update' : 'Add'}
-          </button>
-        </form>
+"use client"
+import { useState } from "react";
+import HabitSelect from "./HabitSelect";
+import NodeTypeSelect from "./NodeTypeSelect";
+import InputField from "./InputField";
+import { habits } from "../constants";
+import UserNode from "./UserNode";
+import HabitNode from "./HabitNode";
+
+interface SidePanelProps {
+  onAddNode?: () => void;
+}
+
+export default function SidePanel({ onAddNode }: SidePanelProps) {
+  const [nodeType, setNodeType] = useState<string>("user");
+  const [nodeName, setNodeName] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [habit, setHabit] = useState<string>("");
+
+  const handleNodeNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNodeName(e.target.value);
+  };
+
+  const handleUsernameChange = (value: string) => {
+    setUsername(value);
+  };
+
+  const handleHabitChange = (value: string) => {
+    setHabit(value);
+  };
+
+  return (
+    <div className="p-4 bg-gray-100 border-r w-80 min-h-screen">
+      <h2 className="text-lg font-semibold mb-4">Add Node</h2>
+      <div className="space-y-4">
+        <NodeTypeSelect nodeType={nodeType} setNodeType={setNodeType} />
+        <InputField
+          label="Node Name"
+          placeholder="Enter node name"
+          value={nodeName}
+          onChange={handleNodeNameChange}
+        />
+
+        {nodeType === "user" && (
+          <UserNode username={username} onChange={handleUsernameChange} />
+        )}
+        {nodeType === "habit" && <HabitNode habit={habit} onChange={handleHabitChange} />}
+
+        <button
+          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          onClick={onAddNode}
+        >
+          Add Node
+        </button>
       </div>
-    );
-  }
-  
+    </div>
+  );
+}
