@@ -7,8 +7,6 @@ export default function UserNode({ username, onChange }: UserNodeProps) {
       <InputField
         label="Username"
         placeholder="Enter username"
-        value={username}
-        onChange={(e) => onChange(e.target.value)}
       />
     </div>
   );
