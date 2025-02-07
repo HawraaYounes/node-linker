@@ -2,6 +2,7 @@
 interface InputFieldProps {
   label: string;
   placeholder: string;
+  name:string,
   // No need for value or onChange here since react-hook-form handles that
  // [key: string]: any;  // Allow additional props (like value, onChange, etc.)
 }
