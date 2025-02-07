@@ -1,14 +1,22 @@
+"use client";
+import ReactFlow, { Background, Controls } from "reactflow";
 import GraphCanvas from "./components/GraphCanvas";
 import SidePanel from "./components/SidePanel";
+import useGraph from "./hooks/useGraph";
 
 export default function Home() {
+  const { nodes, edges, handleAddNode } =
+    useGraph();
+
   return (
     <div className="flex h-screen">
-      {/* Graph Canvas (React Flow) */}
-      <div className="flex-1">
-        <GraphCanvas />
+      <div className="flex-grow">
+        <ReactFlow nodes={nodes} edges={edges}>
+          <Controls />
+          <Background />
+        </ReactFlow>
       </div>
-      <SidePanel/>
+      <SidePanel onAddNode={handleAddNode} />
     </div>
   );
 }
