@@ -10,7 +10,7 @@ export const NodeFormSchema = z.object({
       .refine(
         (val) => habits.some((habit) => habit.value === val),
         {
-          message: "Invalid habit selected!",
+          message: "Invalid habit selected",
         }
       ),
 });

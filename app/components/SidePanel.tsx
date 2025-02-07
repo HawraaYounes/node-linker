@@ -23,7 +23,7 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
     {
       success: false,
       message: {},
-      values: { nodeNamee: "", username: "" , habit:""},
+      values: { nodeNamee: "", username: "", habit: "" }, // Include habit in initial values
     }
   );
 

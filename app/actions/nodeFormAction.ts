@@ -3,7 +3,7 @@ import { NodeFormSchema } from "../zod/node-schema";
 export const nodeFormAction = async (_: any, formData: FormData) => {
     const nodeNamee = formData.get("nodeNamee") as string;
     const username = formData.get("username") as string;
-    const habit = formData.get("habit") as string; // Habit field
+    const habit = formData.get("habit") as string || ''; 
 
     const validatedFields = NodeFormSchema.safeParse({ nodeNamee, username, habit });
 
