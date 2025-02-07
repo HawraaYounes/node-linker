@@ -23,7 +23,7 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
     {
       success: false,
       message: {},
-      values: { nodeNamee: "", username: "" },
+      values: { nodeNamee: "", username: "" , habit:""},
     }
   );
 
@@ -51,7 +51,11 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
           </>
         )}
         {nodeType === "habit" && (
+          <>
           <HabitNode habit={habit} onChange={setHabit} />
+          {state?.message?.habit && (
+          <p className="text-red-500 text-sm">{state.message.habit[0]}</p>
+        )}</>
         )}
 
         <button
