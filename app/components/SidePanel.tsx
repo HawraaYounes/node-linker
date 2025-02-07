@@ -23,7 +23,7 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
     {
       success: false,
       message: {},
-      values: { nodeNamee: "" },
+      values: { nodeNamee: "", username: "" },
     }
   );
 
@@ -43,7 +43,12 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
         )}
 
         {nodeType === "user" && (
-          <UserNode username={username} onChange={setUsername} />
+          <>
+            <UserNode onChange={setUsername} name="username" />
+            {state?.message?.username && (
+              <p className="text-red-500 text-sm">{state.message.username[0]}</p>
+            )}
+          </>
         )}
         {nodeType === "habit" && (
           <HabitNode habit={habit} onChange={setHabit} />
