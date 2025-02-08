@@ -1,7 +1,7 @@
 // components/SidePanel.tsx
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import HabitSelect from "./HabitSelect";
 import NodeTypeSelect from "./NodeTypeSelect";
 import InputField from "./InputField";
@@ -17,6 +17,8 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
   const [nodeType, setNodeType] = useState<string>("user");
   const [username, setUsername] = useState<string>("");
   const [habit, setHabit] = useState<string>("");
+  const [x, setX] = useState<number>(0); // State for x position
+  const [y, setY] = useState<number>(0); // State for y position
 
   const [state, nodeFormActionTrigger, isPending] = useActionState(
     nodeFormAction,
@@ -27,28 +29,22 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
     }
   );
 
-  const generateRandomPosition = () => ({
-    x: Math.random() * 500, // Random x position
-    y: Math.random() * 500, // Random y position
-  });
-
-  const handleSubmit = async (formData: FormData) => {
-    const { x, y } = generateRandomPosition();
-    formData.append("x", x.toString()); // Add x position to form data
-    formData.append("y", y.toString()); // Add y position to form data
-    await nodeFormActionTrigger(formData);
-  };
+  // Generate random positions after the component mounts
+  useEffect(() => {
+    setX(Math.random() * 500);
+    setY(Math.random() * 500);
+  }, []);
 
   return (
     <div className="p-4 bg-gray-100 border-r w-80 min-h-screen">
       <h2 className="text-lg font-semibold mb-4">Add Node</h2>
-      <form action={handleSubmit} className="space-y-4">
+      <form action={nodeFormActionTrigger} className="space-y-4">
         <NodeTypeSelect nodeType={nodeType} setNodeType={setNodeType} />
 
         {/* Hidden inputs for nodeType, x, and y */}
         <input type="hidden" name="nodeType" value={nodeType} />
-        <input type="hidden" name="x" value={generateRandomPosition().x} />
-        <input type="hidden" name="y" value={generateRandomPosition().y} />
+        <input type="hidden" name="x" value={x} />
+        <input type="hidden" name="y" value={y} />
 
         <InputField
           label="Node Name"

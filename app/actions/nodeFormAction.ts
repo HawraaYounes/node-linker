@@ -2,7 +2,7 @@
 "use server";
 
 import { NodeFormSchema } from "../zod/node-schema";
-import { addNode, updateNode } from "./graphActions";
+import { addNode } from "./graphActions"; // Import addNode
 import { Node } from "reactflow";
 
 export const nodeFormAction = async (prevState: any, formData: FormData) => {
@@ -11,7 +11,6 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   const nodeNamee = formData.get("nodeNamee") as string;
   const username = formData.get("username") as string;
   const habit = formData.get("habit") as string || '';
-  const nodeId = formData.get("nodeId") as string || '';
   const nodeType = formData.get("nodeType") as string || 'user';
   const x = parseFloat(formData.get("x") as string); // Get x position from form data
   const y = parseFloat(formData.get("y") as string); // Get y position from form data
@@ -28,7 +27,7 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   if (!validatedFields.success) {
     console.log("Validation Failed:", validatedFields.error);
     return {
-      success: false,
+      success: false, // Ensure this is returned
       message: validatedFields.error.flatten().fieldErrors as { nodeNamee?: string[], username?: string[], habit?: string[] },
       values: { nodeNamee, username, habit },
     };
@@ -37,7 +36,7 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   console.log("Validation Succeeded");
 
   const newNode: Node = {
-    id: nodeId || String(Date.now()),
+    id: String(Date.now()), // Generate a unique ID
     type: nodeType,
     position: { x, y }, // Use the provided x and y positions
     data: {
@@ -49,13 +48,9 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
 
   console.log("New Node:", newNode);
 
-  if (nodeId) {
-    await updateNode(newNode);
-  } else {
-    await addNode(newNode);
-  }
+  await addNode(newNode); // Add the node to the server-side storage
 
-  console.log("Node Added/Updated Successfully");
+  console.log("Node Added Successfully");
 
   return { success: true, message: {}, values: { nodeNamee: "", username: "", habit: "" } };
 };
