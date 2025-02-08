@@ -27,11 +27,28 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
     }
   );
 
+  const generateRandomPosition = () => ({
+    x: Math.random() * 500, // Random x position
+    y: Math.random() * 500, // Random y position
+  });
+
+  const handleSubmit = async (formData: FormData) => {
+    const { x, y } = generateRandomPosition();
+    formData.append("x", x.toString()); // Add x position to form data
+    formData.append("y", y.toString()); // Add y position to form data
+    await nodeFormActionTrigger(formData);
+  };
+
   return (
     <div className="p-4 bg-gray-100 border-r w-80 min-h-screen">
       <h2 className="text-lg font-semibold mb-4">Add Node</h2>
-      <form action={nodeFormActionTrigger} className="space-y-4">
+      <form action={handleSubmit} className="space-y-4">
         <NodeTypeSelect nodeType={nodeType} setNodeType={setNodeType} />
+
+        {/* Hidden inputs for nodeType, x, and y */}
+        <input type="hidden" name="nodeType" value={nodeType} />
+        <input type="hidden" name="x" value={generateRandomPosition().x} />
+        <input type="hidden" name="y" value={generateRandomPosition().y} />
 
         <InputField
           label="Node Name"

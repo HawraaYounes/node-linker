@@ -7,7 +7,7 @@ import useGraph from "./hooks/useGraph";
 
 export default function Home() {
   const { nodes, edges } = useGraph();
-
+  console.log("nodes in page",nodes)
   return (
     <div className="flex h-screen">
       <div className="flex-grow">

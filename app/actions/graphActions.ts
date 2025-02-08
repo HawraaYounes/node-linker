@@ -9,6 +9,7 @@ let edges: Edge[] = [];
 
 export async function addNode(node: Node): Promise<void> {
   nodes.push(node);
+  console.log("NODES",nodes)
   if (nodes.length > 1) {
     const previousNode = nodes[nodes.length - 2];
     edges.push({
