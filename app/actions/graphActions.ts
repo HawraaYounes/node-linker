@@ -1,17 +1,11 @@
+// actions/nodeActions.ts
 "use server";
 
 import { Node, Edge } from "reactflow";
+import { NodeFormSchema } from "../zod/node-schema";
 
 let nodes: Node[] = [];
 let edges: Edge[] = [];
-
-export async function fetchNodes(): Promise<Node[]> {
-  return nodes;
-}
-
-export async function fetchEdges(): Promise<Edge[]> {
-  return edges;
-}
 
 export async function addNode(node: Node): Promise<void> {
   nodes.push(node);
@@ -31,10 +25,10 @@ export async function updateNode(updatedNode: Node): Promise<void> {
   );
 }
 
-export async function linkNodes(sourceId: string, targetId: string): Promise<void> {
-  edges.push({
-    id: `e${sourceId}-${targetId}`,
-    source: sourceId,
-    target: targetId,
-  });
+export async function fetchNodes(): Promise<Node[]> {
+  return nodes;
+}
+
+export async function fetchEdges(): Promise<Edge[]> {
+  return edges;
 }

@@ -1,9 +1,9 @@
+// hooks/useGraph.ts
 "use client";
 
 import { useEffect, useState } from "react";
 import { Node, Edge } from "reactflow";
-import "reactflow/dist/style.css";
-import { fetchEdges, fetchNodes, addNode } from "../actions/graphActions"; // Import addNode
+import { fetchEdges, fetchNodes } from "../actions/graphActions";
 
 export default function useGraph() {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -20,11 +20,5 @@ export default function useGraph() {
     loadNodesAndEdges();
   }, []);
 
-  // Handle adding a new node
-  const handleAddNode = async (newNode: Node) => {
-    await addNode(newNode); // Add the node to the storage (or database)
-    setNodes([...nodes, newNode]); // Update the local state to re-render the nodes
-  };
-
-  return { nodes, edges, handleAddNode };
+  return { nodes, edges };
 }

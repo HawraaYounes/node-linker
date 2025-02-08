@@ -1,7 +1,7 @@
+// components/SidePanel.tsx
 "use client";
 
 import { useActionState, useState } from "react";
-
 import HabitSelect from "./HabitSelect";
 import NodeTypeSelect from "./NodeTypeSelect";
 import InputField from "./InputField";
@@ -23,7 +23,7 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
     {
       success: false,
       message: {},
-      values: { nodeNamee: "", username: "", habit: "" },  
+      values: { nodeNamee: "", username: "", habit: "" },
     }
   );
 
@@ -52,10 +52,11 @@ export default function SidePanel({ onAddNode }: SidePanelProps) {
         )}
         {nodeType === "habit" && (
           <>
-          <HabitNode habit={habit} onChange={setHabit} />
-          {state?.message?.habit && (
-          <p className="text-red-500 text-sm">{state.message.habit[0]}</p>
-        )}</>
+            <HabitNode habit={habit} onChange={setHabit} />
+            {state?.message?.habit && (
+              <p className="text-red-500 text-sm">{state.message.habit[0]}</p>
+            )}
+          </>
         )}
 
         <button

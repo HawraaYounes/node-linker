@@ -1,12 +1,12 @@
+// app/page.tsx
 "use client";
+
 import ReactFlow, { Background, Controls } from "reactflow";
-import GraphCanvas from "./components/GraphCanvas";
 import SidePanel from "./components/SidePanel";
 import useGraph from "./hooks/useGraph";
 
 export default function Home() {
-  const { nodes, edges, handleAddNode } =
-    useGraph();
+  const { nodes, edges } = useGraph();
 
   return (
     <div className="flex h-screen">
@@ -16,7 +16,7 @@ export default function Home() {
           <Background />
         </ReactFlow>
       </div>
-      <SidePanel onAddNode={handleAddNode} />
+      <SidePanel />
     </div>
   );
 }
