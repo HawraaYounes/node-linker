@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { Node, Edge } from "reactflow";
-import { fetchEdges, fetchNodes } from "../actions/graphActions";
+import { fetchEdges, fetchNodes } from "../actions/nodeFormAction";
 
 export default function useGraph() {
   const [nodes, setNodes] = useState<Node[]>([]);

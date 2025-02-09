@@ -1,3 +1,5 @@
+"use client"
+
 import InputField from "./InputField";
 
 export default function UserNode({ name }: UserNodeProps) {

@@ -1,10 +1,12 @@
 // actions/nodeFormAction.ts
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { NodeFormSchema } from "../zod/node-schema";
-import { addNode } from "./graphActions"; // Import addNode
-import { Node } from "reactflow";
-
+// import { addNode } from "./graphActions"; // Import addNode
+import { Edge, Node } from "reactflow";
+let nodes: Node[] = [];
+let edges: Edge[] = [];
 export const nodeFormAction = async (prevState: any, formData: FormData) => {
   console.log("ENTERED NODE FORM ACTION");
 
@@ -36,7 +38,7 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   console.log("Validation Succeeded");
 
   const newNode: Node = {
-    id: String(Date.now()), // Generate a unique ID
+    id: "11", // Generate a unique ID
     type: nodeType,
     position: { x, y }, // Use the provided x and y positions
     data: {
@@ -48,9 +50,50 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
 
   console.log("New Node:", newNode);
 
-  await addNode(newNode); // Add the node to the server-side storage
+  nodes.push(newNode);
+  console.log("NODES IN GRAPPH ACTIONS", nodes);
 
+  if (nodes.length > 1) {
+
+    const previousNode = nodes[nodes.length - 2];
+    edges.push({
+      id: `e${previousNode.id}-${newNode.id}`,
+      source: previousNode.id,
+      target: newNode.id,
+    });
+  }
+  revalidatePath("/")
   console.log("Node Added Successfully");
 
   return { success: true, message: {}, values: { nodeNamee: "", username: "", habit: "" } };
 };
+
+
+
+
+// let nodes: Node[] = [];
+// let edges: Edge[] = [];
+
+// export async function addNode(node: Node): Promise<void> {
+//   nodes.push(node);
+//   console.log("NODES IN GRAPPH ACTIONS", nodes);
+
+//   if (nodes.length > 1) {
+
+//     const previousNode = nodes[nodes.length - 2];
+//     edges.push({
+//       id: `e${previousNode.id}-${node.id}`,
+//       source: previousNode.id,
+//       target: node.id,
+//     });
+//   }
+//   revalidatePath("/")
+// }
+
+export async function fetchNodes(): Promise<Node[]> {
+  return nodes;
+}
+
+export async function fetchEdges(): Promise<Edge[]> {
+  return edges;
+}

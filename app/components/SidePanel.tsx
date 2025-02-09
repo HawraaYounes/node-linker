@@ -9,11 +9,9 @@ import UserNode from "./UserNode";
 import HabitNode from "./HabitNode";
 import { nodeFormAction } from "../actions/nodeFormAction";
 
-interface SidePanelProps {
-  onAddNode?: () => void;
-}
 
-export default function SidePanel({ onAddNode }: SidePanelProps) {
+
+export default function SidePanel() {
   const [nodeType, setNodeType] = useState<string>("user");
   const [username, setUsername] = useState<string>("");
   const [habit, setHabit] = useState<string>("");

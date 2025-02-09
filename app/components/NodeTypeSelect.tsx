@@ -1,3 +1,5 @@
+"use client"
+
 export default function NodeTypeSelect({ nodeType, setNodeType }: NodeTypeSelectProps) {
     return (
       <div>

@@ -1,3 +1,4 @@
+"use client"
 import { habits } from "../constants";
 import HabitSelect from "./HabitSelect";
 
