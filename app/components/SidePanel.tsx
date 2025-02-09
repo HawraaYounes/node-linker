@@ -1,7 +1,6 @@
-// components/SidePanel.tsx
 "use client";
 
-import { useActionState, useState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import HabitSelect from "./HabitSelect";
 import NodeTypeSelect from "./NodeTypeSelect";
 import InputField from "./InputField";
@@ -32,6 +31,8 @@ export default function SidePanel() {
     setX(Math.random() * 500);
     setY(Math.random() * 500);
   }, []);
+  // const [x, setX] = useState(() => Math.random() * 500);
+  // const [y, setY] = useState(() => Math.random() * 500);
 
   return (
     <div className="p-4 bg-gray-100 border-r w-80 min-h-screen">

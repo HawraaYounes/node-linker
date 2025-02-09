@@ -1,4 +1,3 @@
-// actions/nodeFormAction.ts
 "use server";
 
 import { revalidatePath } from "next/cache";
@@ -7,6 +6,7 @@ import { NodeFormSchema } from "../zod/node-schema";
 import { Edge, Node } from "reactflow";
 let nodes: Node[] = [];
 let edges: Edge[] = [];
+
 export const nodeFormAction = async (prevState: any, formData: FormData) => {
   console.log("ENTERED NODE FORM ACTION");
 
@@ -14,9 +14,11 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   const username = formData.get("username") as string;
   const habit = formData.get("habit") as string || '';
   const nodeType = formData.get("nodeType") as string || 'user';
-  const x = parseFloat(formData.get("x") as string); // Get x position from form data
-  const y = parseFloat(formData.get("y") as string); // Get y position from form data
-
+  // const x = parseFloat(formData.get("x") as string); // Get x position from form data
+  // const y = parseFloat(formData.get("y") as string); // Get y position from form data
+  const x=Math.floor(Math.random() * 400)
+  const y=Math.floor(Math.random() * 400)
+  console.log("X ","y",x,y)
   console.log("Form Values:", { nodeNamee, username, habit, nodeType, x, y });
 
   // Validate based on node type
@@ -38,7 +40,7 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   console.log("Validation Succeeded");
 
   const newNode: Node = {
-    id: "11", // Generate a unique ID
+    id: String(Date.now()), // Generate a unique ID
     type: nodeType,
     position: { x, y }, // Use the provided x and y positions
     data: {
@@ -51,7 +53,7 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   console.log("New Node:", newNode);
 
   nodes.push(newNode);
-  console.log("NODES IN GRAPPH ACTIONS", nodes);
+  console.log("NODES IN GRAPH ACTIONS", nodes);
 
   if (nodes.length > 1) {
 
@@ -67,6 +69,7 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
 
   return { success: true, message: {}, values: { nodeNamee: "", username: "", habit: "" } };
 };
+
 
 
 
@@ -91,6 +94,7 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
 // }
 
 export async function fetchNodes(): Promise<Node[]> {
+  console.log("fetchnodes nodes array", nodes)
   return nodes;
 }
 

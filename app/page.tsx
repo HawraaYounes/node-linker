@@ -1,36 +1,37 @@
 // app/page.tsx
 // "use client";
-"use server"
 import ReactFlow, { Background, Controls } from "reactflow";
-import useGraph from "./hooks/useGraph";
 import { useActionState } from "react";
-import SidePanel from "./components/SidePanel";
 import GraphCanvas from "./components/GraphCanvas";
 import NodesList from "./components/NodesList";
 import { fetchEdges, fetchNodes } from "./actions/nodeFormAction";
-
+import dynamic from 'next/dynamic'
+import SidePanel from "./components/SidePanel";
+import SSR from "./components/SSR";
+ 
 // Dynamically import SidePanel with SSR disabled
 // const SidePanel = dynamic(() => import("./components/SidePanel"), {
 //   ssr: false,
 // });
 
-export  default async function Home() {
+export  default function Home() {
   // const { nodes, edges } = useGraph();
   // console.log("nodes in page", nodes);
   // const [state, action] = useActionState(addNode, undefined);
 
 // const nodes= await fetchNodes()
 // const edges= await fetchEdges()
-const nodes = await fetchNodes();
-const edges = await fetchEdges();
- console.log("nodes in page", nodes);
+
+ 
+// const SidePanel = dynamic(() => import('./components/SidePanel'), { ssr: false })
   return (
     <div className="flex h-screen">
+      
       <div className="flex-grow">
-        <GraphCanvas nodes={nodes}/>
+        <GraphCanvas />
         {/* <NodesList nodes={nodes}/> */}
       </div>
-      <SidePanel />
+      <SSR />
     </div>
   );
 }
