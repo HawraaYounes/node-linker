@@ -16,9 +16,9 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   const nodeType = formData.get("nodeType") as string || 'user';
   // const x = parseFloat(formData.get("x") as string); // Get x position from form data
   // const y = parseFloat(formData.get("y") as string); // Get y position from form data
-  const x=Math.floor(Math.random() * 400)
-  const y=Math.floor(Math.random() * 400)
-  console.log("X ","y",x,y)
+  const x = Math.floor(Math.random() * 400)
+  const y = Math.floor(Math.random() * 400)
+  console.log("X ", "y", x, y)
   console.log("Form Values:", { nodeNamee, username, habit, nodeType, x, y });
 
   // Validate based on node type
@@ -44,7 +44,9 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
     type: nodeType,
     position: { x, y }, // Use the provided x and y positions
     data: {
-      label: validatedFields.data.nodeNamee,
+      label: nodeType === "user"
+        ? `${validatedFields.data.nodeNamee} (${validatedFields.data.username})`
+        : `${validatedFields.data.nodeNamee} (${validatedFields.data.habit})`,
       username: validatedFields.data.username,
       habit: validatedFields.data.habit,
     },
