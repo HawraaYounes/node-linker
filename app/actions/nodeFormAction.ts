@@ -7,7 +7,6 @@ let nodes: Node[] = [];
 let edges: Edge[] = [];
 
 export const nodeFormAction = async (prevState: any, formData: FormData) => {
-  console.log("ENTERED NODE FORM ACTION",formData);
 
   const id = formData.get("id") as string;
   const nodeNamee = formData.get("nodeNamee") as string;

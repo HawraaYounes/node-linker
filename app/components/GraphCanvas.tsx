@@ -2,7 +2,6 @@
 import "reactflow/dist/style.css";
 import { fetchEdges, fetchNodes } from "../actions/nodeFormAction";
 import NodesList from "./NodesList";
-import SSR from "./SSR";
 
 export default async function GraphCanvas() {
   const nodes = await fetchNodes();
@@ -11,8 +10,6 @@ export default async function GraphCanvas() {
   return (
     <div className="flex h-screen">
       <NodesList initialNodes={nodes} initialEdges={edges} />
-      
-
     </div>
   );
 }
