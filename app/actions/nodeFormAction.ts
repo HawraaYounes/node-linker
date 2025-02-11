@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import { NodeFormSchema } from "../zod/node-schema";
-// import { addNode } from "./graphActions"; // Import addNode
 import { Edge, Node } from "reactflow";
 let nodes: Node[] = [];
 let edges: Edge[] = [];
@@ -14,8 +13,6 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   const username = formData.get("username") as string;
   const habit = formData.get("habit") as string || '';
   const nodeType = formData.get("nodeType") as string || 'user';
-  // const x = parseFloat(formData.get("x") as string); // Get x position from form data
-  // const y = parseFloat(formData.get("y") as string); // Get y position from form data
   const x = Math.floor(Math.random() * 400)
   const y = Math.floor(Math.random() * 400)
   console.log("X ", "y", x, y)
@@ -36,13 +33,11 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
       values: { nodeNamee, username, habit },
     };
   }
-
   console.log("Validation Succeeded");
-
   const newNode: Node = {
-    id: String(Date.now()), // Generate a unique ID
+    id: String(Date.now()), 
     type: nodeType,
-    position: { x, y }, // Use the provided x and y positions
+    position: { x, y }, 
     data: {
       label: nodeType === "user"
         ? `${validatedFields.data.nodeNamee} (${validatedFields.data.username})`
@@ -71,29 +66,6 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
 
   return { success: true, message: {}, values: { nodeNamee: "", username: "", habit: "" } };
 };
-
-
-
-
-
-// let nodes: Node[] = [];
-// let edges: Edge[] = [];
-
-// export async function addNode(node: Node): Promise<void> {
-//   nodes.push(node);
-//   console.log("NODES IN GRAPPH ACTIONS", nodes);
-
-//   if (nodes.length > 1) {
-
-//     const previousNode = nodes[nodes.length - 2];
-//     edges.push({
-//       id: `e${previousNode.id}-${node.id}`,
-//       source: previousNode.id,
-//       target: node.id,
-//     });
-//   }
-//   revalidatePath("/")
-// }
 
 export async function fetchNodes(): Promise<Node[]> {
   console.log("fetchnodes nodes array", nodes)

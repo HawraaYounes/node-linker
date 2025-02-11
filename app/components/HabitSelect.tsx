@@ -2,7 +2,7 @@ export default function HabitSelect({
   onChange,
   habits,
   habit = "",
-  name
+  name,
 }: HabitSelectProps) {
   return (
     <div>

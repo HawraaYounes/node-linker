@@ -1,7 +1,5 @@
 "use client";
-
 import { useActionState, useEffect, useState } from "react";
-import HabitSelect from "./HabitSelect";
 import NodeTypeSelect from "./NodeTypeSelect";
 import InputField from "./InputField";
 import UserNode from "./UserNode";
@@ -14,8 +12,8 @@ export default function SidePanel() {
   const [nodeType, setNodeType] = useState<string>("user");
   const [username, setUsername] = useState<string>("");
   const [habit, setHabit] = useState<string>("");
-  const [x, setX] = useState<number>(0); // State for x position
-  const [y, setY] = useState<number>(0); // State for y position
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0); 
 
   const [state, nodeFormActionTrigger, isPending] = useActionState(
     nodeFormAction,
@@ -31,8 +29,6 @@ export default function SidePanel() {
     setX(Math.random() * 500);
     setY(Math.random() * 500);
   }, []);
-  // const [x, setX] = useState(() => Math.random() * 500);
-  // const [y, setY] = useState(() => Math.random() * 500);
 
   return (
     <div className="p-4 bg-gray-100 border-r w-80 min-h-screen">
