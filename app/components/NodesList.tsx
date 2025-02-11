@@ -8,14 +8,12 @@ import ReactFlow, {
 } from "reactflow";
 import { useEffect, useState } from "react";
 import SSR from "./SSR";
+import { NodesListProps } from "../interfaces/nodes-list.interface";
 
 export default function NodesList({
   initialNodes,
   initialEdges,
-}: {
-  initialNodes: Node[];
-  initialEdges: Edge[];
-}) {
+}: NodesListProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNode, setSelectedNode] = useState<Node | "">("");  
