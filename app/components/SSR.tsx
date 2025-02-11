@@ -7,7 +7,7 @@ const SidePanel = dynamic(() => import("../components/SidePanel"), {
 });
 type SSRProps = {
   selectedNode: Node | "";  
-  setSelectedNode: (node: Node | null) => void;  
+  setSelectedNode: (node: Node | '') => void;  
 };
 
 

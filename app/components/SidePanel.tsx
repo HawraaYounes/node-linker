@@ -7,7 +7,7 @@ import HabitNode from "./HabitNode";
 import { nodeFormAction } from "../actions/nodeFormAction";
 import { Node } from "reactflow";
 
-export default function SidePanel({ selectedNode, setSelectedNode }: { selectedNode: Node | '', setSelectedNode: (node: Node | null) => void }) {
+export default function SidePanel({ selectedNode, setSelectedNode }: { selectedNode: Node | '', setSelectedNode: (node: Node | '') => void }) {
   const [nodeType, setNodeType] = useState<string>("user");
   const [username, setUsername] = useState<string>("");
   const [habit, setHabit] = useState<string>("");
@@ -45,7 +45,7 @@ export default function SidePanel({ selectedNode, setSelectedNode }: { selectedN
 
   const handleSubmit = async (formData: FormData) => {
     await nodeFormActionTrigger(formData);
-    setSelectedNode(null);
+    setSelectedNode('');
   };
 
   return (
