@@ -1,5 +1,5 @@
 "use client";
-import { habits } from "../constants";
+import { habits } from "@/public/data";
 import HabitSelect from "./HabitSelect";
 
 export default function HabitNode({ habit, onChange }: HabitNodeProps) {
