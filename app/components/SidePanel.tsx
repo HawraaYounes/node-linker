@@ -27,7 +27,7 @@ export default function SidePanel({ selectedNode, setSelectedNode }: { selectedN
   useEffect(() => {
     if (selectedNode) {
       setIsEditMode(true);
-      setNodeType(selectedNode.type);
+      setNodeType(selectedNode.type || "");
       setUsername(selectedNode.data.username || "");
       setHabit(selectedNode.data.habit || "");
       setX(selectedNode.position.x);
@@ -41,6 +41,7 @@ export default function SidePanel({ selectedNode, setSelectedNode }: { selectedN
       setY(Math.random() * 500);
     }
   }, [selectedNode]);
+  
 
   const handleSubmit = async (formData: FormData) => {
     await nodeFormActionTrigger(formData);

@@ -1,4 +1,3 @@
-"use client";
 import ReactFlow, {
   Background,
   Edge,
@@ -18,7 +17,7 @@ export default function NodesList({
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [selectedNode, setSelectedNode] = useState('');
+  const [selectedNode, setSelectedNode] = useState<Node | "">("");  // Change to Node | ""
 
   useEffect(() => {
     setNodes((prevNodes) => [...initialNodes]);
@@ -26,7 +25,7 @@ export default function NodesList({
   }, [initialNodes, initialEdges]);
 
   const onNodeClick = (event: any, node: Node) => {
-    setSelectedNode(node);
+    setSelectedNode(node);  // Set it to the Node object
   };
 
   return (
