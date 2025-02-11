@@ -5,15 +5,15 @@ import InputField from "./InputField";
 import UserNode from "./UserNode";
 import HabitNode from "./HabitNode";
 import { nodeFormAction } from "../actions/nodeFormAction";
+import { Node } from "reactflow";
 
-
-
-export default function SidePanel() {
+export default function SidePanel({ selectedNode, setSelectedNode }: { selectedNode: Node | '', setSelectedNode: (node: Node | null) => void }) {
   const [nodeType, setNodeType] = useState<string>("user");
   const [username, setUsername] = useState<string>("");
   const [habit, setHabit] = useState<string>("");
   const [x, setX] = useState<number>(0);
   const [y, setY] = useState<number>(0); 
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
   const [state, nodeFormActionTrigger, isPending] = useActionState(
     nodeFormAction,
@@ -24,27 +24,45 @@ export default function SidePanel() {
     }
   );
 
-  // Generate random positions after the component mounts
   useEffect(() => {
-    setX(Math.random() * 500);
-    setY(Math.random() * 500);
-  }, []);
+    if (selectedNode) {
+      setIsEditMode(true);
+      setNodeType(selectedNode.type);
+      setUsername(selectedNode.data.username || "");
+      setHabit(selectedNode.data.habit || "");
+      setX(selectedNode.position.x);
+      setY(selectedNode.position.y);
+    } else {
+      setIsEditMode(false);
+      setNodeType("user");
+      setUsername("");
+      setHabit("");
+      setX(Math.random() * 500);
+      setY(Math.random() * 500);
+    }
+  }, [selectedNode]);
+
+  const handleSubmit = async (formData: FormData) => {
+    await nodeFormActionTrigger(formData);
+    setSelectedNode(null);
+  };
 
   return (
     <div className="p-4 bg-gray-100 border-r w-80 min-h-screen">
-      <h2 className="text-lg font-semibold mb-4">Add Node</h2>
-      <form action={nodeFormActionTrigger} className="space-y-4">
+      <h2 className="text-lg font-semibold mb-4">{isEditMode ? "Edit Node" : "Add Node"}</h2>
+      <form action={handleSubmit} className="space-y-4">
         <NodeTypeSelect nodeType={nodeType} setNodeType={setNodeType} />
 
-        {/* Hidden inputs for nodeType, x, and y */}
         <input type="hidden" name="nodeType" value={nodeType} />
         <input type="hidden" name="x" value={x} />
         <input type="hidden" name="y" value={y} />
+        <input type="hidden" name="id" value={selectedNode && selectedNode?.id || ''} />
 
         <InputField
           label="Node Name"
           placeholder="Enter node name"
           name="nodeNamee"
+          defaultValue={selectedNode && selectedNode?.data.label.split(" (")[0]}
         />
         {state?.message?.nodeNamee && (
           <p className="text-red-500 text-sm">{state.message.nodeNamee[0]}</p>
@@ -52,7 +70,7 @@ export default function SidePanel() {
 
         {nodeType === "user" && (
           <>
-            <UserNode onChange={setUsername} name="username" />
+            <UserNode onChange={setUsername} name="username" defaultValue={username} />
             {state?.message?.username && (
               <p className="text-red-500 text-sm">{state.message.username[0]}</p>
             )}
@@ -72,12 +90,12 @@ export default function SidePanel() {
           disabled={isPending}
           className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
         >
-          {isPending ? "Adding..." : "Add Node"}
+          {isPending ? (isEditMode ? "Updating..." : "Adding...") : (isEditMode ? "Update Node" : "Add Node")}
         </button>
 
         {state?.success && (
           <p className="mt-3 text-center text-green-600">
-            Node added successfully!
+            {isEditMode ? "Node updated successfully!" : "Node added successfully!"}
           </p>
         )}
       </form>

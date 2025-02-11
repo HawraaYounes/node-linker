@@ -7,6 +7,7 @@ import ReactFlow, {
   useNodesState,
 } from "reactflow";
 import { useEffect, useState } from "react";
+import SSR from "./SSR";
 
 export default function NodesList({
   initialNodes,
@@ -17,19 +18,29 @@ export default function NodesList({
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  console.log()
+  const [selectedNode, setSelectedNode] = useState('');
+
   useEffect(() => {
     setNodes((prevNodes) => [...initialNodes]);
     setEdges((prevEdges) => [...initialEdges]);
-  }, [initialNodes,initialEdges]);
-  
-  console.log("NODES IN NODES LIST", nodes);
-  
+  }, [initialNodes, initialEdges]);
+
+  const onNodeClick = (event: any, node: Node) => {
+    setSelectedNode(node);
+  };
+
   return (
     <>
-      <ReactFlow nodes={nodes}   edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onNodeClick={onNodeClick}
+      >
         <Background />
       </ReactFlow>
+      <SSR selectedNode={selectedNode} setSelectedNode={setSelectedNode} />
     </>
   );
 }

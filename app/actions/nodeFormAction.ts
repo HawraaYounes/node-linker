@@ -9,16 +9,16 @@ let edges: Edge[] = [];
 export const nodeFormAction = async (prevState: any, formData: FormData) => {
   console.log("ENTERED NODE FORM ACTION");
 
+  const id = formData.get("id") as string;
   const nodeNamee = formData.get("nodeNamee") as string;
   const username = formData.get("username") as string;
   const habit = formData.get("habit") as string || '';
   const nodeType = formData.get("nodeType") as string || 'user';
-  const x = Math.floor(Math.random() * 400)
-  const y = Math.floor(Math.random() * 400)
-  console.log("X ", "y", x, y)
+  const x = parseFloat(formData.get("x") as string);
+  const y = parseFloat(formData.get("y") as string);
+
   console.log("Form Values:", { nodeNamee, username, habit, nodeType, x, y });
 
-  // Validate based on node type
   const validatedFields = NodeFormSchema.safeParse({
     nodeNamee,
     username: nodeType === "user" ? username : undefined,
@@ -28,47 +28,65 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   if (!validatedFields.success) {
     console.log("Validation Failed:", validatedFields.error);
     return {
-      success: false, // Ensure this is returned
+      success: false,
       message: validatedFields.error.flatten().fieldErrors as { nodeNamee?: string[], username?: string[], habit?: string[] },
       values: { nodeNamee, username, habit },
     };
   }
+
   console.log("Validation Succeeded");
-  const newNode: Node = {
-    id: String(Date.now()), 
-    type: nodeType,
-    position: { x, y }, 
-    data: {
-      label: nodeType === "user"
-        ? `${validatedFields.data.nodeNamee} (${validatedFields.data.username})`
-        : `${validatedFields.data.nodeNamee} (${validatedFields.data.habit})`,
-      username: validatedFields.data.username,
-      habit: validatedFields.data.habit,
-    },
-  };
 
-  console.log("New Node:", newNode);
+  if (id) {
+    // Update existing node
+    const nodeIndex = nodes.findIndex(node => node.id === id);
+    if (nodeIndex !== -1) {
+      nodes[nodeIndex] = {
+        ...nodes[nodeIndex],
+        type: nodeType,
+        position: { x, y },
+        data: {
+          label: nodeType === "user"
+            ? `${validatedFields.data.nodeNamee} (${validatedFields.data.username})`
+            : `${validatedFields.data.nodeNamee} (${validatedFields.data.habit})`,
+          username: validatedFields.data.username,
+          habit: validatedFields.data.habit,
+        },
+      };
+    }
+  } else {
+    // Add new node
+    const newNode: Node = {
+      id: String(Date.now()),
+      type: nodeType,
+      position: { x, y },
+      data: {
+        label: nodeType === "user"
+          ? `${validatedFields.data.nodeNamee} (${validatedFields.data.username})`
+          : `${validatedFields.data.nodeNamee} (${validatedFields.data.habit})`,
+        username: validatedFields.data.username,
+        habit: validatedFields.data.habit,
+      },
+    };
 
-  nodes.push(newNode);
-  console.log("NODES IN GRAPH ACTIONS", nodes);
+    nodes.push(newNode);
 
-  if (nodes.length > 1) {
-
-    const previousNode = nodes[nodes.length - 2];
-    edges.push({
-      id: `e${previousNode.id}-${newNode.id}`,
-      source: previousNode.id,
-      target: newNode.id,
-    });
+    if (nodes.length > 1) {
+      const previousNode = nodes[nodes.length - 2];
+      edges.push({
+        id: `e${previousNode.id}-${newNode.id}`,
+        source: previousNode.id,
+        target: newNode.id,
+      });
+    }
   }
-  revalidatePath("/")
-  console.log("Node Added Successfully");
+
+  revalidatePath("/");
+  console.log("Node Added/Updated Successfully");
 
   return { success: true, message: {}, values: { nodeNamee: "", username: "", habit: "" } };
 };
 
 export async function fetchNodes(): Promise<Node[]> {
-  console.log("fetchnodes nodes array", nodes)
   return nodes;
 }
 
