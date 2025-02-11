@@ -7,12 +7,15 @@ import HabitNode from "./HabitNode";
 import { nodeFormAction } from "../actions/nodeFormAction";
 import { SidePanelProps } from "../interfaces/side-panel.interface";
 
-export default function SidePanel({ selectedNode, setSelectedNode }: SidePanelProps) {
+export default function SidePanel({
+  selectedNode,
+  setSelectedNode,
+}: SidePanelProps) {
   const [nodeType, setNodeType] = useState<string>("user");
   const [username, setUsername] = useState<string>("");
   const [habit, setHabit] = useState<string>("");
   const [x, setX] = useState<number>(0);
-  const [y, setY] = useState<number>(0); 
+  const [y, setY] = useState<number>(0);
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
   const [state, nodeFormActionTrigger, isPending] = useActionState(
@@ -41,23 +44,28 @@ export default function SidePanel({ selectedNode, setSelectedNode }: SidePanelPr
       setY(Math.random() * 500);
     }
   }, [selectedNode]);
-  
 
   const handleSubmit = async (formData: FormData) => {
     await nodeFormActionTrigger(formData);
-    setSelectedNode('');
+    setSelectedNode("");
   };
 
   return (
     <div className="p-4 bg-gray-100 border-r w-80 min-h-screen">
-      <h2 className="text-lg font-semibold mb-4">{isEditMode ? "Edit Node" : "Add Node"}</h2>
+      <h2 className="text-lg font-semibold mb-4">
+        {isEditMode ? "Edit Node" : "Add Node"}
+      </h2>
       <form action={handleSubmit} className="space-y-4">
         <NodeTypeSelect nodeType={nodeType} setNodeType={setNodeType} />
 
         <input type="hidden" name="nodeType" value={nodeType} />
         <input type="hidden" name="x" value={x} />
         <input type="hidden" name="y" value={y} />
-        <input type="hidden" name="id" value={selectedNode && selectedNode?.id || ''} />
+        <input
+          type="hidden"
+          name="id"
+          value={(selectedNode && selectedNode?.id) || ""}
+        />
 
         <InputField
           label="Node Name"
@@ -71,9 +79,15 @@ export default function SidePanel({ selectedNode, setSelectedNode }: SidePanelPr
 
         {nodeType === "user" && (
           <>
-            <UserNode onChange={setUsername} name="username" defaultValue={username} />
+            <UserNode
+              onChange={setUsername}
+              name="username"
+              defaultValue={username}
+            />
             {state?.message?.username && (
-              <p className="text-red-500 text-sm">{state.message.username[0]}</p>
+              <p className="text-red-500 text-sm">
+                {state.message.username[0]}
+              </p>
             )}
           </>
         )}
@@ -91,12 +105,20 @@ export default function SidePanel({ selectedNode, setSelectedNode }: SidePanelPr
           disabled={isPending}
           className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
         >
-          {isPending ? (isEditMode ? "Updating..." : "Adding...") : (isEditMode ? "Update Node" : "Add Node")}
+          {isPending
+            ? isEditMode
+              ? "Updating..."
+              : "Adding..."
+            : isEditMode
+            ? "Update Node"
+            : "Add Node"}
         </button>
 
         {state?.success && (
           <p className="mt-3 text-center text-green-600">
-            {isEditMode ? "Node updated successfully!" : "Node added successfully!"}
+            {isEditMode
+              ? "Node updated successfully!"
+              : "Node added successfully!"}
           </p>
         )}
       </form>

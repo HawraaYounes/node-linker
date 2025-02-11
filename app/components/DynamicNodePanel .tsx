@@ -1,6 +1,5 @@
 "use client";
 import dynamic from "next/dynamic";
-import { Node } from "reactflow";
 import { SidePanelProps } from "../interfaces/side-panel.interface";
 
 const SidePanel = dynamic(() => import("../components/SidePanel"), {

@@ -7,7 +7,7 @@ import ReactFlow, {
   useNodesState,
 } from "reactflow";
 import { useEffect, useState } from "react";
-import DynamicNodePanel  from "./DynamicNodePanel ";
+import DynamicNodePanel from "./DynamicNodePanel ";
 import { NodesListProps } from "../interfaces/nodes-list.interface";
 
 export default function NodesList({
@@ -16,7 +16,7 @@ export default function NodesList({
 }: NodesListProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [selectedNode, setSelectedNode] = useState<Node | "">("");  
+  const [selectedNode, setSelectedNode] = useState<Node | "">("");
 
   useEffect(() => {
     setNodes((prevNodes) => [...initialNodes]);
@@ -24,7 +24,7 @@ export default function NodesList({
   }, [initialNodes, initialEdges]);
 
   const onNodeClick = (event: any, node: Node) => {
-    setSelectedNode(node);  // Set it to the Node object
+    setSelectedNode(node); // Set it to the Node object
   };
 
   return (
@@ -38,7 +38,10 @@ export default function NodesList({
       >
         <Background />
       </ReactFlow>
-      <DynamicNodePanel  selectedNode={selectedNode} setSelectedNode={setSelectedNode} />
+      <DynamicNodePanel
+        selectedNode={selectedNode}
+        setSelectedNode={setSelectedNode}
+      />
     </>
   );
 }

@@ -1,4 +1,3 @@
-// zod/node-schema.ts
 import { z } from "zod";
 import { habits } from "../constants";
 
@@ -16,7 +15,6 @@ export const NodeFormSchema = z.object({
     )
     .optional(),
 }).superRefine((data, ctx) => {
-  // Conditional validation based on node type
   if (!data.username && !data.habit) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,

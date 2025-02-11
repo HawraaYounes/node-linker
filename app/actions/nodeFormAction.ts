@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { NodeFormSchema } from "../zod/node-schema";
 import { Edge, Node } from "reactflow";
@@ -25,15 +24,12 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   });
 
   if (!validatedFields.success) {
-    console.log("Validation Failed:", validatedFields.error);
     return {
       success: false,
       message: validatedFields.error.flatten().fieldErrors as { nodeNamee?: string[], username?: string[], habit?: string[] },
       values: { nodeNamee, username, habit },
     };
   }
-
-  console.log("Validation Succeeded");
 
   if (id) {
     // Update existing node
@@ -80,8 +76,6 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   }
 
   revalidatePath("/");
-  console.log("Node Added/Updated Successfully");
-
   return { success: true, message: {}, values: { nodeNamee: "", username: "", habit: "" } };
 };
 
