@@ -15,8 +15,6 @@ export const nodeFormAction = async (prevState: any, formData: FormData) => {
   const x = parseFloat(formData.get("x") as string);
   const y = parseFloat(formData.get("y") as string);
 
-  console.log("Form Values:", { nodeNamee, username, habit, nodeType, x, y });
-
   const validatedFields = NodeFormSchema.safeParse({
     nodeNamee,
     username: nodeType === "user" ? username : undefined,
