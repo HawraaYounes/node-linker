@@ -1,20 +1,19 @@
-"use client"
+"use client";
 import dynamic from "next/dynamic";
 import { Node } from "reactflow";
+import { SidePanelProps } from "../interfaces/side-panel.interface";
 
 const SidePanel = dynamic(() => import("../components/SidePanel"), {
   ssr: false,
 });
-type SSRProps = {
-  selectedNode: Node | "";  
-  setSelectedNode: (node: Node | '') => void;  
-};
 
-
-export default function SSR({ selectedNode, setSelectedNode }: SSRProps) {
+export default function SSR({ selectedNode, setSelectedNode }: SidePanelProps) {
   return (
     <div>
-      <SidePanel selectedNode={selectedNode} setSelectedNode={setSelectedNode} />
+      <SidePanel
+        selectedNode={selectedNode}
+        setSelectedNode={setSelectedNode}
+      />
     </div>
   );
 }
