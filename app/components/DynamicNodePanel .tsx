@@ -7,7 +7,7 @@ const SidePanel = dynamic(() => import("../components/SidePanel"), {
   ssr: false,
 });
 
-export default function SSR({ selectedNode, setSelectedNode }: SidePanelProps) {
+export default function DynamicNodePanel ({ selectedNode, setSelectedNode }: SidePanelProps) {
   return (
     <div>
       <SidePanel

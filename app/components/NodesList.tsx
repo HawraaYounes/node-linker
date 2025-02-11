@@ -7,7 +7,7 @@ import ReactFlow, {
   useNodesState,
 } from "reactflow";
 import { useEffect, useState } from "react";
-import SSR from "./SSR";
+import DynamicNodePanel  from "./DynamicNodePanel ";
 import { NodesListProps } from "../interfaces/nodes-list.interface";
 
 export default function NodesList({
@@ -38,7 +38,7 @@ export default function NodesList({
       >
         <Background />
       </ReactFlow>
-      <SSR selectedNode={selectedNode} setSelectedNode={setSelectedNode} />
+      <DynamicNodePanel  selectedNode={selectedNode} setSelectedNode={setSelectedNode} />
     </>
   );
 }
