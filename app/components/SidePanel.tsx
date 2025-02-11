@@ -5,9 +5,9 @@ import InputField from "./InputField";
 import UserNode from "./UserNode";
 import HabitNode from "./HabitNode";
 import { nodeFormAction } from "../actions/nodeFormAction";
-import { Node } from "reactflow";
+import { SidePanelProps } from "../interfaces/side-panel.interface";
 
-export default function SidePanel({ selectedNode, setSelectedNode }: { selectedNode: Node | '', setSelectedNode: (node: Node | '') => void }) {
+export default function SidePanel({ selectedNode, setSelectedNode }: SidePanelProps) {
   const [nodeType, setNodeType] = useState<string>("user");
   const [username, setUsername] = useState<string>("");
   const [habit, setHabit] = useState<string>("");
